@@ -251,21 +251,24 @@ body {
     color: var(--text-muted);
     margin-bottom: 1.5rem;
     display: flex;
-    align-items: center;
+    align-items: center; /* Back to center but with fixed line-heights */
     flex-wrap: wrap;
     gap: 0.5rem;
+    line-height: 1.2;
 }
 
 .hero-role .typed-text {
     color: var(--accent);
-    min-height: 2rem;
-    display: inline-block;
+    min-height: 1.2em; /* Use em instead of rem for better scaling */
+    display: inline-flex;
+    align-items: center;
 }
 
 .hero-role .cursor {
     color: var(--accent);
     animation: blink 1s infinite;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     margin-left: -2px;
 }
 
@@ -976,6 +979,14 @@ img {
         text-align: center;
     }
     
+    .hero-role {
+        font-size: 1.4rem;
+        justify-content: center; /* Center flex items on mobile */
+        align-items: center; /* Vertical alignment */
+        display: flex; /* Ensure flex is active */
+        width: 100%;
+    }
+    
     .hero-desc {
         margin-left: auto;
         margin-right: auto;
@@ -993,10 +1004,6 @@ img {
     
     .hero-name {
         font-size: 2.5rem;
-    }
-    
-    .hero-role {
-        font-size: 1.4rem;
     }
     
     .section-title {
