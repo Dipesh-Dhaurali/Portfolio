@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications & Training - Dipesh Dhaurali</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/folder.png"/>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        .docs-navbar { background: rgba(15, 20, 25, 0.95) !important; backdrop-filter: blur(10px); padding: 0.75rem 0; border-bottom: 1px solid rgba(0, 238, 255, 0.16); position: sticky; top: 0; z-index: 1000; }
+        .docs-page-title { font-size: 1.2rem; font-weight: 600; background: linear-gradient(135deg, #0ef, #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .docs-layout { display: grid; grid-template-columns: 300px 1fr; gap: 1.25rem; min-height: calc(100vh - 160px); }
+        .docs-sidebar { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(0, 238, 255, 0.16); border-radius: 16px; padding: 1rem; max-height: calc(100vh - 180px); overflow-y: auto; position: sticky; top: 90px; }
+        .docs-sidebar-title { font-size: 0.95rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .docs-section-heading { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0.85rem 0 0.4rem; padding-left: 0.35rem; border-left: 3px solid var(--accent); }
+        .docs-section-heading:first-of-type { margin-top: 0.25rem; }
+        .doc-item { display: flex; align-items: center; gap: 0.65rem; padding: 0.6rem 0.75rem; border-radius: 10px; cursor: pointer; transition: all 0.25s ease; margin-bottom: 0.25rem; border: 1px solid transparent; color: var(--text-white); text-decoration: none; font-size: 0.88rem; font-weight: 400; word-break: break-word; line-height: 1.3; }
+        .doc-item:hover { background: rgba(0, 238, 255, 0.08); border-color: rgba(0, 238, 255, 0.25); }
+        .doc-item.active { background: rgba(0, 238, 255, 0.14); border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(0, 238, 255, 0.22); font-weight: 500; }
+        .doc-item .doc-icon { font-size: 1.05rem; flex-shrink: 0; width: 24px; text-align: center; }
+        .doc-item .doc-icon.pdf { color: #ef4444; }
+        .doc-item .doc-icon.img { color: #22d3ee; }
+        .doc-item.active .doc-icon.pdf, .doc-item.active .doc-icon.img { color: var(--accent); }
+        .docs-main { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+        .docs-toolbar { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(0, 238, 255, 0.16); border-radius: 16px; padding: 0.85rem 1.1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
+        .docs-toolbar-title { font-size: 1rem; font-weight: 600; color: var(--text-white); display: flex; align-items: center; gap: 0.5rem; min-width: 0; flex: 1; }
+        .docs-toolbar-title span.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 420px; }
+        .docs-toolbar-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .docs-toolbar-actions .btn { border-radius: 999px; font-size: 0.82rem; padding: 0.4rem 0.95rem; display: inline-flex; align-items: center; gap: 0.4rem; }
+        .docs-viewer { background: #000; border: 1px solid rgba(0, 238, 255, 0.2); border-radius: 18px; overflow: hidden; min-height: 72vh; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .docs-viewer iframe, .docs-viewer object { width: 100%; height: 75vh; display: block; border: 0; background: #fff; }
+        .docs-viewer .image-frame { width: 100%; min-height: 75vh; display: flex; align-items: center; justify-content: center; background: #0a0f18; padding: 1rem; }
+        .docs-viewer .image-frame img { max-width: 100%; max-height: 75vh; height: auto; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .docs-empty { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.75rem; min-height: 60vh; color: var(--text-muted); text-align: center; padding: 2rem; }
+        .docs-empty i { font-size: 3rem; color: var(--accent); opacity: 0.6; }
+        .docs-count-badge { background: rgba(0, 238, 255, 0.1); padding: 0.2rem 0.65rem; border-radius: 20px; font-size: 0.72rem; color: var(--accent); border: 1px solid rgba(0, 238, 255, 0.3); margin-left: 0.5rem; }
+        .viewer-hint { font-size: 0.78rem; color: var(--text-muted); text-align: center; padding: 0.65rem 0.5rem 0.5rem; background: #000; border-top: 1px solid rgba(0, 238, 255, 0.1); }
+        .docs-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
+        .gallery-thumb { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0, 238, 255, 0.2); cursor: pointer; aspect-ratio: 4/3; background: #0a0f18; transition: all 0.25s ease; }
+        .gallery-thumb:hover { border-color: var(--accent); box-shadow: 0 0 18px rgba(0, 238, 255, 0.3); transform: translateY(-2px); }
+        .gallery-thumb.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent), 0 0 22px rgba(0, 238, 255, 0.35); }
+        .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-thumb .thumb-overlay { position: absolute; inset: 0; background: linear-gradient(transparent 50%, rgba(0,0,0,0.85)); display: flex; align-items: flex-end; padding: 0.5rem; font-size: 0.72rem; color: #fff; line-height: 1.25; }
+        @media (max-width: 991px) {
+            .docs-layout { grid-template-columns: 1fr; }
+            .docs-sidebar { position: static; max-height: none; }
+            .docs-toolbar-title span.file-name { max-width: 240px; }
+            .docs-viewer iframe, .docs-viewer object, .docs-viewer .image-frame { height: 62vh; min-height: 62vh; }
+        }
+        @media (max-width: 576px) {
+            .docs-toolbar { padding: 0.75rem 0.9rem; }
+            .docs-toolbar-actions .btn { padding: 0.35rem 0.75rem; font-size: 0.78rem; }
+            .docs-viewer iframe, .docs-viewer object, .docs-viewer .image-frame { height: 55vh; min-height: 55vh; }
+            .docs-gallery { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar docs-navbar">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center gap-2 py-2">
+            <a href="index.html#education" class="btn btn-outline-accent btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+            <a href="index.html" class="btn btn-accent btn-sm"><i class="bi bi-house-door"></i> Home</a>
+            <a href="project.html" class="btn btn-outline-accent btn-sm"><i class="bi bi-code-square"></i> Projects</a>
+            <a href="education.html" class="btn btn-outline-accent btn-sm"><i class="bi bi-mortarboard"></i> Education</a>
+        </div>
+        <span class="docs-page-title d-none d-sm-inline-block"><i class="bi bi-award"></i> Certifications &amp; Training</span>
+    </div>
+</nav>
+
+<main class="section-padding" style="padding-top: 1.5rem; padding-bottom: 3rem;">
+    <div class="container">
+        <div class="text-center mb-4" data-aos="fade-up">
+            <h2 class="section-title" style="margin-bottom: 0.5rem;">Professional <span class="text-accent">Certifications</span></h2>
+            <p class="text-muted">Training &amp; course completion certificates &mdash; PDFs prioritized first, image gallery below</p>
+        </div>
+
+        <div class="docs-layout">
+            <aside class="docs-sidebar" data-aos="fade-right">
+                <div class="docs-sidebar-title"><i class="bi bi-folder2-open"></i> Documents <span class="docs-count-badge" id="docCountBadge">0</span></div>
+                <div id="pdfList"></div>
+                <div id="imgList"></div>
+            </aside>
+
+            <section class="docs-main" data-aos="fade-left">
+                <div class="docs-toolbar">
+                    <div class="docs-toolbar-title">
+                        <i id="toolbarIcon" class="bi bi-file-earmark-image text-accent"></i>
+                        <span class="file-name" id="toolbarFileName">Select a certificate from the left</span>
+                    </div>
+                    <div class="docs-toolbar-actions" id="toolbarActions">
+                        <button type="button" class="btn btn-outline-accent btn-sm" id="btnPrevDoc"><i class="bi bi-chevron-left"></i> Prev</button>
+                        <button type="button" class="btn btn-outline-accent btn-sm" id="btnNextDoc">Next <i class="bi bi-chevron-right"></i></button>
+                        <a href="#" target="_blank" rel="noopener" class="btn btn-outline-accent btn-sm" id="btnOpenTab"><i class="bi bi-box-arrow-up-right"></i> New Tab</a>
+                        <a href="#" download class="btn btn-accent btn-sm" id="btnDownload"><i class="bi bi-download"></i> Download</a>
+                    </div>
+                </div>
+
+                <div class="docs-viewer" id="docViewer">
+                    <div class="docs-empty">
+                        <i class="bi bi-files"></i>
+                        <h5>No certificate selected</h5>
+                        <p class="small mb-0">Pick any file from the sidebar or gallery to preview it here.</p>
+                    </div>
+                </div>
+
+                <div class="docs-gallery" id="docGallery"></div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true });
+
+    (function () {
+        const BASE = 'documents/Certification/';
+
+        function isPDF(n) { return /\.pdf$/i.test(n); }
+        function isImg(n) { return /\.(jpe?g|png|webp)$/i.test(n); }
+        function displayName(n) {
+            return decodeURIComponent(n)
+                .replace(/\.[^.]+$/, '')
+                .replace(/_page-\d+/gi, '')
+                .replace(/[-_]+/g, ' ')
+                .replace(/\s{2,}/g, ' ')
+                .trim();
+        }
+        function ext(n) {
+            const m = /\.([^.]+)$/.exec(n);
+            return m ? m[1].toUpperCase() : '';
+        }
+
+        const RAW_FILES = [
+            'Advance Python Certificate_page-0001.jpg',
+            'Django Certificate.jpg',
+            'Python Boot Cam Certificate.jpg',
+            'Python Programming Course Completion Certificate_page-0001 (1).jpg',
+            'web development Test certificate.jpg'
+        ];
+
+        const PDF_FILES = RAW_FILES.filter(isPDF);
+        const IMG_FILES = RAW_FILES.filter(isImg);
+        const DOCS = PDF_FILES.concat(IMG_FILES);
+        const NAME_MAP = {};
+        DOCS.forEach(f => { NAME_MAP[f] = displayName(f); });
+
+        const sidebarBadge = document.getElementById('docCountBadge');
+        const pdfList = document.getElementById('pdfList');
+        const imgList = document.getElementById('imgList');
+        const viewer = document.getElementById('docViewer');
+        const toolbarFileName = document.getElementById('toolbarFileName');
+        const toolbarIcon = document.getElementById('toolbarIcon');
+        const btnOpenTab = document.getElementById('btnOpenTab');
+        const btnDownload = document.getElementById('btnDownload');
+        const btnPrev = document.getElementById('btnPrevDoc');
+        const btnNext = document.getElementById('btnNextDoc');
+        const gallery = document.getElementById('docGallery');
+
+        sidebarBadge.textContent = DOCS.length + ' total';
+
+        function renderHeading(container, label, count) {
+            const h = document.createElement('div');
+            h.className = 'docs-section-heading';
+            h.textContent = label + ' \u2022 ' + count;
+            container.appendChild(h);
+        }
+        function renderItem(container, file) {
+            const a = document.createElement('a');
+            a.href = '#d=' + encodeURIComponent(file);
+            a.className = 'doc-item';
+            a.dataset.file = file;
+            a.innerHTML =
+                '<i class="bi bi-' + (isPDF(file) ? 'filetype-pdf doc-icon pdf' : 'file-image doc-icon img') + '"></i>' +
+                '<div style="flex:1;min-width:0;">' +
+                    '<div>' + NAME_MAP[file] + '</div>' +
+                    '<div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.15rem;">' + ext(file) + '</div>' +
+                '</div>';
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                selectDoc(file, true);
+            });
+            container.appendChild(a);
+        }
+
+        if (PDF_FILES.length > 0) {
+            renderHeading(pdfList, 'PDF Documents', PDF_FILES.length);
+            PDF_FILES.forEach(f => renderItem(pdfList, f));
+        }
+        renderHeading(imgList, 'Certificate Images', IMG_FILES.length);
+        IMG_FILES.forEach(f => renderItem(imgList, f));
+
+        function renderGallery() {
+            gallery.innerHTML = '';
+            DOCS.forEach(file => {
+                const el = document.createElement('div');
+                el.className = 'gallery-thumb';
+                el.dataset.file = file;
+                const url = BASE + encodeURIComponent(file);
+                if (isPDF(file)) {
+                    el.innerHTML =
+                        '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,#3a0a0a,#7a1f1f);color:#fff;font-size:3rem;"><i class="bi bi-filetype-pdf"></i></div>' +
+                        '<div class="thumb-overlay">' + NAME_MAP[file] + '</div>';
+                } else {
+                    el.innerHTML =
+                        '<img src="' + url + '" alt="' + NAME_MAP[file] + '" loading="lazy">' +
+                        '<div class="thumb-overlay">' + NAME_MAP[file] + '</div>';
+                }
+                el.addEventListener('click', () => selectDoc(file, true));
+                gallery.appendChild(el);
+            });
+        }
+        renderGallery();
+
+        let currentFile = null;
+
+        function renderViewer(file) {
+            const url = BASE + encodeURIComponent(file);
+            if (isPDF(file)) {
+                viewer.innerHTML =
+                    '<iframe src="' + url + '" title="' + NAME_MAP[file] + '" type="application/pdf" loading="lazy"></iframe>' +
+                    '<div class="viewer-hint"><i class="bi bi-info-circle"></i> Use the built-in PDF controls above to zoom, search, print, or save.</div>';
+            } else {
+                viewer.innerHTML =
+                    '<div class="image-frame"><img src="' + url + '" alt="' + NAME_MAP[file] + '" loading="lazy"></div>' +
+                    '<div class="viewer-hint"><i class="bi bi-info-circle"></i> Click <b>Download</b> or <b>New Tab</b> for full-resolution certificate image.</div>';
+            }
+            btnOpenTab.href = url;
+            btnDownload.href = url;
+            btnDownload.download = file;
+            toolbarFileName.textContent = NAME_MAP[file];
+            toolbarIcon.className = isPDF(file) ? 'bi bi-filetype-pdf text-accent' : 'bi bi-file-earmark-image text-accent';
+            toolbarFileName.title = NAME_MAP[file] + ' (' + ext(file) + ')';
+            document.querySelectorAll('.doc-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.file === file);
+            });
+            document.querySelectorAll('.gallery-thumb').forEach(el => {
+                el.classList.toggle('active', el.dataset.file === file);
+            });
+            document.title = NAME_MAP[file] + ' \u2014 Certifications \u2014 Dipesh Dhaurali';
+        }
+
+        function clearViewer() {
+            viewer.innerHTML =
+                '<div class="docs-empty">' +
+                    '<i class="bi bi-files"></i>' +
+                    '<h5>No certificate selected</h5>' +
+                    '<p class="small mb-0">Pick any file from the sidebar or gallery to preview it here.</p>' +
+                '</div>';
+            toolbarFileName.textContent = 'Select a certificate from the left';
+            toolbarIcon.className = 'bi bi-file-earmark-image text-accent';
+            btnOpenTab.href = '#';
+            btnDownload.href = '#';
+            document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.gallery-thumb').forEach(el => el.classList.remove('active'));
+            document.title = 'Certifications & Training - Dipesh Dhaurali';
+        }
+
+        function selectDoc(file, pushHash) {
+            if (!DOCS.includes(file)) { clearViewer(); currentFile = null; return; }
+            currentFile = file;
+            renderViewer(file);
+            if (pushHash !== false) {
+                try { history.replaceState(null, '', '#d=' + encodeURIComponent(file)); } catch (e) {}
+            }
+        }
+
+        function indexOfFile(f) { return DOCS.indexOf(f); }
+        function step(delta) {
+            if (DOCS.length === 0) return;
+            let idx = currentFile ? indexOfFile(currentFile) : -1;
+            if (idx < 0) idx = delta > 0 ? -1 : DOCS.length;
+            idx = (idx + delta + DOCS.length) % DOCS.length;
+            selectDoc(DOCS[idx], true);
+        }
+        btnPrev.addEventListener('click', function () { step(-1); });
+        btnNext.addEventListener('click', function () { step(+1); });
+        document.addEventListener('keydown', function (e) {
+            if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'IFRAME')) return;
+            if (e.key === 'ArrowLeft' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); step(-1); }
+            else if (e.key === 'ArrowRight' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); step(+1); }
+        });
+
+        function readHashDoc() {
+            const h = (window.location.hash || '').replace(/^#/, '');
+            if (!h) return null;
+            try {
+                const params = new URLSearchParams(h);
+                const d = params.get('d');
+                if (d) return decodeURIComponent(d);
+            } catch (e) {}
+            return h && h.startsWith('d=') ? decodeURIComponent(h.substring(2)) : null;
+        }
+        function applyFromHash() {
+            const d = readHashDoc();
+            if (d) selectDoc(d, false);
+            else if (!currentFile && DOCS.length > 0) selectDoc(DOCS[0], false);
+        }
+        window.addEventListener('hashchange', applyFromHash);
+        applyFromHash();
+    })();
+</script>
+</body>
+</html>
