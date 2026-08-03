@@ -478,6 +478,7 @@
                     <p class="project-summary">Developed a full-stack Job Portal using Python and Django with AI-based job recommendations and email notifications.</p>
                     <div class="project-actions">
                         <a href="https://dipeshjobportal.pythonanywhere.com/" target="_blank" rel="noopener" class="btn btn-project-live">Live Preview</a>
+                        <button type="button" class="btn btn-project-video" data-video-src="video/JobPortal.mp4" data-video-title="JobPortal System Demo"><i class="bi bi-play-circle"></i> Video Demo</button>
                     </div>
                 </div>
             </div>
@@ -520,7 +521,7 @@
 	-->
             
             <div class="col-md-4 project-item" data-category="main" data-keywords="ecommerce laravel shop cart">
-                <div class="project-card"><div class="project-header"><span class="project-tag">🛒 Laravel · Full Stack</span><h3 class="project-title">Ecommerce Platform </h3></div><a href="https://github.com/Dipesh-Dhaurali/Ecommerce" target="_blank" class="project-image-link"><div class="project-image"><img src="images/ecom.jpg" alt="Ecommerce" loading="lazy"></div></a><p class="project-summary">Ecommerce platform with product browsing, cart management, and order tracking.</p><div class="project-actions"><a href="https://emart.dipeshdhaurali.com.np/" target="_blank" class="btn btn-project-live">Live Demo →</a></div></div>
+                <div class="project-card"><div class="project-header"><span class="project-tag">🛒 Laravel · Full Stack</span><h3 class="project-title">Ecommerce Platform </h3></div><a href="https://github.com/Dipesh-Dhaurali/Ecommerce" target="_blank" class="project-image-link"><div class="project-image"><img src="images/ecom.jpg" alt="Ecommerce" loading="lazy"></div></a><p class="project-summary">Ecommerce platform with product browsing, cart management, and order tracking.</p><div class="project-actions"><a href="https://emart.dipeshdhaurali.com.np/" target="_blank" class="btn btn-project-live">Live Demo →</a><button type="button" class="btn btn-project-video" data-video-src="video/Emart.mp4" data-video-title="Ecommerce Platform Demo"><i class="bi bi-play-circle"></i> Video Demo</button></div></div>
             </div>
             
             
@@ -647,6 +648,22 @@
 <button id="backToTop" class="back-to-top" aria-label="Back to Top">
     <i class="bi bi-arrow-up"></i>
 </button>
+
+<!-- Video Demo Modal -->
+<div id="videoModal" class="video-modal-overlay" aria-hidden="true">
+    <div class="video-modal" role="dialog" aria-modal="true" aria-labelledby="videoModalTitle">
+        <button type="button" class="video-modal-close" aria-label="Close video modal">&times;</button>
+        <div class="video-modal-header">
+            <h3 id="videoModalTitle" class="video-modal-title"><i class="bi bi-play-circle text-accent"></i> <span id="videoModalTitleText">Video Demo</span></h3>
+        </div>
+        <div class="video-modal-body">
+            <video id="videoModalPlayer" controls preload="metadata" playsinline>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

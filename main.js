@@ -403,4 +403,227 @@ Email: ${emailInput.value}
             navbar.classList.remove('scrolled');
         }
     });
+
+    // ========== Video Demo Modal ==========
+    const videoModal = document.getElementById('videoModal');
+    if (videoModal) {
+        const videoPlayer = document.getElementById('videoModalPlayer');
+        const videoTitleText = document.getElementById('videoModalTitleText');
+        const videoCloseBtn = videoModal.querySelector('.video-modal-close');
+        const videoBtns = document.querySelectorAll('.btn-project-video');
+
+        function openVideoModal(videoSrc, videoTitle) {
+            if (!videoSrc) return;
+            videoTitleText.textContent = videoTitle || 'Video Demo';
+            const sourceEl = videoPlayer.querySelector('source');
+            sourceEl.src = videoSrc;
+            videoPlayer.load();
+            videoModal.classList.add('open');
+            videoModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                videoPlayer.focus({ preventScroll: true });
+                videoPlayer.play().catch(() => {});
+            }, 200);
+        }
+
+        function closeVideoModal() {
+            try {
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
+            } catch (e) {}
+            const sourceEl = videoPlayer.querySelector('source');
+            if (sourceEl) {
+                sourceEl.src = '';
+            }
+            videoPlayer.load();
+            videoModal.classList.remove('open');
+            videoModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        videoBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const src = btn.getAttribute('data-video-src');
+                const title = btn.getAttribute('data-video-title');
+                openVideoModal(src, title);
+            });
+        });
+
+        videoCloseBtn.addEventListener('click', closeVideoModal);
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) closeVideoModal();
+        });
+
+        /* ------- Video Player Controls (arrows, space, click seek) ------- */
+        const SEEK_STEP = 5;
+
+        videoPlayer.addEventListener('keydown', (e) => {
+            const key = e.key;
+            const isArrow = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(key);
+            if (key === ' ' || isArrow) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            if (key === ' ') {
+                if (videoPlayer.paused) videoPlayer.play().catch(() => {});
+                else videoPlayer.pause();
+            } else if (key === 'ArrowLeft') {
+                videoPlayer.currentTime = Math.max(0, videoPlayer.currentTime - SEEK_STEP);
+            } else if (key === 'ArrowRight') {
+                videoPlayer.currentTime = Math.min(videoPlayer.duration || 0, videoPlayer.currentTime + SEEK_STEP);
+            } else if (key === 'ArrowUp') {
+                videoPlayer.volume = Math.min(1, videoPlayer.volume + 0.1);
+            } else if (key === 'ArrowDown') {
+                videoPlayer.volume = Math.max(0, videoPlayer.volume - 0.1);
+            } else if (key === 'F' || key === 'f') {
+                if (!document.fullscreenElement) {
+                    videoPlayer.requestFullscreen?.().catch(() => {});
+                } else {
+                    document.exitFullscreen?.().catch(() => {});
+                }
+            } else if (key === 'M' || key === 'm') {
+                videoPlayer.muted = !videoPlayer.muted;
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!videoModal.classList.contains('open')) return;
+
+            const insideVideo = e.target === videoPlayer || videoPlayer.contains(e.target);
+
+            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key) && !insideVideo) {
+                const key = e.key;
+                if (key === ' ') {
+                    if (videoPlayer.paused) videoPlayer.play().catch(() => {});
+                    else videoPlayer.pause();
+                } else if (key === 'ArrowLeft') {
+                    videoPlayer.currentTime = Math.max(0, videoPlayer.currentTime - SEEK_STEP);
+                } else if (key === 'ArrowRight') {
+                    videoPlayer.currentTime = Math.min(videoPlayer.duration || 0, videoPlayer.currentTime + SEEK_STEP);
+                } else if (key === 'ArrowUp') {
+                    videoPlayer.volume = Math.min(1, videoPlayer.volume + 0.1);
+                } else if (key === 'ArrowDown') {
+                    videoPlayer.volume = Math.max(0, videoPlayer.volume - 0.1);
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+
+            if (e.key === 'Escape') {
+                closeVideoModal();
+                e.stopPropagation();
+            }
+        }, true);
+
+        /* ------- Custom Click + Drag Seek (zone-aware, preserves native controls) ------- */
+        const DRAG_ZONE_MAX = 0.35;
+        const NATIVE_BAR_MAX = 0.18;
+        const CUSTOM_CLICK_MIN = 0.18;
+        const CUSTOM_CLICK_MAX = 0.35;
+        let isSeeking = false;
+        let wasPlayingBeforeSeek = false;
+        let seekMoved = false;
+        let startedInNativeBar = false;
+
+        function seekFromClientX(clientX) {
+            if (!videoPlayer.duration || isNaN(videoPlayer.duration)) return;
+            const rect = videoPlayer.getBoundingClientRect();
+            let ratio = (clientX - rect.left) / rect.width;
+            ratio = Math.min(1, Math.max(0, ratio));
+            videoPlayer.currentTime = ratio * videoPlayer.duration;
+        }
+
+        function bottomRatio(clientY) {
+            const rect = videoPlayer.getBoundingClientRect();
+            return (rect.bottom - clientY) / rect.height;
+        }
+        function inDragZone(clientY) { return bottomRatio(clientY) <= DRAG_ZONE_MAX; }
+        function inNativeBar(clientY) { return bottomRatio(clientY) <= NATIVE_BAR_MAX; }
+        function inCustomClickZone(clientY) {
+            const br = bottomRatio(clientY);
+            return br > CUSTOM_CLICK_MIN && br <= CUSTOM_CLICK_MAX;
+        }
+
+        let mouseDownPos = null;
+
+        videoPlayer.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            const inNative = inNativeBar(e.clientY);
+            const inDrag = inDragZone(e.clientY);
+            if (!inDrag) return;
+            startedInNativeBar = inNative;
+            if (inNative) return;
+            e.preventDefault();
+            e.stopPropagation();
+            isSeeking = true;
+            seekMoved = false;
+            wasPlayingBeforeSeek = !videoPlayer.paused;
+            if (wasPlayingBeforeSeek) videoPlayer.pause();
+            mouseDownPos = { x: e.clientX, y: e.clientY };
+            seekFromClientX(e.clientX);
+            videoPlayer.classList.add('is-seeking');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isSeeking) return;
+            if (mouseDownPos) {
+                const dx = Math.abs(e.clientX - mouseDownPos.x);
+                const dy = Math.abs(e.clientY - mouseDownPos.y);
+                if (dx > 3 || dy > 3) seekMoved = true;
+            }
+            seekFromClientX(e.clientX);
+        }, true);
+
+        document.addEventListener('mouseup', (e) => {
+            if (!isSeeking) return;
+            isSeeking = false;
+            videoPlayer.classList.remove('is-seeking');
+            seekFromClientX(e.clientX);
+            mouseDownPos = null;
+            startedInNativeBar = false;
+            if (wasPlayingBeforeSeek) videoPlayer.play().catch(() => {});
+        }, true);
+
+        videoPlayer.addEventListener('click', (e) => {
+            if (!inCustomClickZone(e.clientY)) return;
+            if (!videoPlayer.duration || isNaN(videoPlayer.duration)) return;
+            if (seekMoved) { seekMoved = false; return; }
+            e.preventDefault();
+            e.stopPropagation();
+            seekFromClientX(e.clientX);
+        }, true);
+
+        /* ------- Touch Seek (mobile) ------- */
+        function getTouchClientX(e) {
+            return e.touches && e.touches[0] ? e.touches[0].clientX : (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : 0);
+        }
+
+        videoPlayer.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            if (!touch || !inDragZone(touch.clientY)) return;
+            if (inNativeBar(touch.clientY)) return;
+            e.preventDefault();
+            isSeeking = true;
+            wasPlayingBeforeSeek = !videoPlayer.paused;
+            if (wasPlayingBeforeSeek) videoPlayer.pause();
+            seekFromClientX(touch.clientX);
+            videoPlayer.classList.add('is-seeking');
+        }, { passive: false });
+
+        videoPlayer.addEventListener('touchmove', (e) => {
+            if (!isSeeking) return;
+            e.preventDefault();
+            seekFromClientX(getTouchClientX(e));
+        }, { passive: false });
+
+        videoPlayer.addEventListener('touchend', (e) => {
+            if (!isSeeking) return;
+            isSeeking = false;
+            videoPlayer.classList.remove('is-seeking');
+            seekFromClientX(getTouchClientX(e));
+            if (wasPlayingBeforeSeek) videoPlayer.play().catch(() => {});
+        }, { passive: false });
+    }
 });

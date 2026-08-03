@@ -814,6 +814,240 @@ img {
     font-weight: 600;
 }
 
+.btn-project-download {
+    background: transparent;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.9rem;
+    padding: 0.5rem 1.4rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-project-download:hover {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border: 2px solid var(--accent) !important;
+    box-shadow: 0 0 15px rgba(0, 238, 255, 0.8);
+    font-weight: 600;
+}
+
+/* ========== Video Demo Button & Modal ========== */
+.btn-project-video {
+    background: linear-gradient(135deg, rgba(0, 238, 255, 0.15), rgba(0, 238, 255, 0.05));
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.9rem;
+    padding: 0.5rem 1.4rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    outline: none;
+    font-family: inherit;
+}
+
+.btn-project-video i {
+    font-size: 1rem;
+}
+
+.btn-project-video:hover {
+    background: var(--accent) !important;
+    color: var(--bg-dark) !important;
+    border: 1px solid var(--accent) !important;
+    box-shadow: 0 0 20px var(--accent-glow);
+    font-weight: 600;
+    transform: translateY(-1px);
+}
+
+.btn-project-video:active {
+    transform: translateY(0);
+}
+
+/* Video Modal Overlay */
+.video-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-modal-overlay.open {
+    display: flex;
+    opacity: 1;
+}
+
+/* Video Modal Box */
+.video-modal {
+    position: relative;
+    width: 100%;
+    max-width: 60vw;
+    background: var(--bg-card);
+    border: 1px solid rgba(0, 238, 255, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 0 60px var(--accent-glow), 0 25px 80px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    transform: scale(0.85);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: modalGlow 3s ease-in-out infinite;
+}
+
+.video-modal-overlay.open .video-modal {
+    transform: scale(1);
+}
+
+@keyframes modalGlow {
+    0%, 100% { box-shadow: 0 0 50px var(--accent-glow), 0 25px 80px rgba(0, 0, 0, 0.7); }
+    50%      { box-shadow: 0 0 75px rgba(0, 238, 255, 0.55), 0 25px 80px rgba(0, 0, 0, 0.7); }
+}
+
+/* Close Button */
+.video-modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 238, 255, 0.4);
+    background: rgba(15, 20, 25, 0.85);
+    color: var(--accent);
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.25s ease;
+    padding: 0;
+    outline: none;
+}
+
+.video-modal-close:hover {
+    background: var(--accent);
+    color: var(--bg-dark);
+    transform: rotate(90deg) scale(1.08);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Modal Header */
+.video-modal-header {
+    padding: 1rem 1.5rem 0.85rem;
+    background: linear-gradient(135deg, rgba(0, 238, 255, 0.08), transparent);
+    border-bottom: 1px solid rgba(0, 238, 255, 0.15);
+}
+
+.video-modal-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Modal Body / Video Player */
+.video-modal-body {
+    background: #000;
+    padding: 0;
+    position: relative;
+}
+
+.video-modal-body video {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 70vh;
+    background: #000;
+    outline: none;
+    pointer-events: auto;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.video-modal-body video:focus,
+.video-modal-body video:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+.video-modal-body video::-webkit-media-controls-panel {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    pointer-events: auto;
+}
+
+.video-modal-body video::-webkit-media-controls,
+.video-modal-body video::-webkit-media-controls-enclosure {
+    pointer-events: auto;
+    z-index: 10;
+}
+
+.video-modal-body video::-webkit-media-controls-timeline {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.video-modal-body video::-webkit-media-controls-current-time-display,
+.video-modal-body video::-webkit-media-controls-time-remaining-display {
+    pointer-events: none;
+}
+
+.video-modal-body video::-webkit-media-controls-timeline {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.video-modal-body video::-webkit-media-controls-play-button,
+.video-modal-body video::-webkit-media-controls-volume-slider,
+.video-modal-body video::-webkit-media-controls-mute-button,
+.video-modal-body video::-webkit-media-controls-fullscreen-button {
+    pointer-events: auto !important;
+}
+
+.video-modal-body video.is-seeking {
+    cursor: ew-resize !important;
+}
+
+/* Responsive Modal */
+@media (max-width: 1199px) {
+    .video-modal { max-width: 72vw; }
+}
+@media (max-width: 991px) {
+    .video-modal { max-width: 85vw; }
+    .video-modal-header { padding: 0.85rem 1.25rem 0.75rem; }
+    .video-modal-title { font-size: 0.98rem; }
+    .video-modal-close { width: 38px; height: 38px; font-size: 1.55rem; }
+}
+@media (max-width: 576px) {
+    .video-modal { max-width: 96vw; border-radius: 14px; }
+    .video-modal-overlay { padding: 0.5rem; }
+    .video-modal-header { padding: 0.75rem 1rem 0.6rem; padding-right: 3.5rem; }
+    .video-modal-title { font-size: 0.9rem; }
+    .video-modal-close { top: 0.4rem; right: 0.45rem; width: 34px; height: 34px; font-size: 1.4rem; }
+    .btn-project-video { padding: 0.45rem 1rem; font-size: 0.82rem; }
+    .project-actions { flex-wrap: wrap; }
+}
+
 .btn-see-more-projects {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
