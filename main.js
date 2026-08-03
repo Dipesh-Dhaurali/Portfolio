@@ -412,7 +412,30 @@ Email: ${emailInput.value}
         const videoCloseBtn = videoModal.querySelector('.video-modal-close');
         const videoBtns = document.querySelectorAll('.btn-project-video');
 
-        function openVideoModal(videoSrc, videoTitle) {
+        function buildHash(videoSrc, videoTitle) {
+            const params = new URLSearchParams();
+            params.set('v', videoSrc);
+            if (videoTitle) params.set('t', videoTitle);
+            return '#video?' + params.toString();
+        }
+        function parseHash() {
+            const h = window.location.hash || '';
+            const idx = h.indexOf('?');
+            if (idx === -1 || h.substring(0, idx) !== '#video') return null;
+            const qs = h.substring(idx + 1);
+            const params = new URLSearchParams(qs);
+            const v = params.get('v');
+            if (!v) return null;
+            return { v: v, t: params.get('t') || 'Video Demo' };
+        }
+        function setHashState(videoSrc, videoTitle) {
+            try {
+                const target = videoSrc ? buildHash(videoSrc, videoTitle) : (window.location.pathname + window.location.search);
+                history.replaceState(null, '', videoSrc ? buildHash(videoSrc, videoTitle) : window.location.pathname + window.location.search);
+            } catch (e) {}
+        }
+
+        function openVideoModal(videoSrc, videoTitle, updateHash) {
             if (!videoSrc) return;
             videoTitleText.textContent = videoTitle || 'Video Demo';
             const sourceEl = videoPlayer.querySelector('source');
@@ -421,13 +444,14 @@ Email: ${emailInput.value}
             videoModal.classList.add('open');
             videoModal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
+            if (updateHash !== false) setHashState(videoSrc, videoTitle || 'Video Demo');
             setTimeout(() => {
                 videoPlayer.focus({ preventScroll: true });
                 videoPlayer.play().catch(() => {});
             }, 200);
         }
 
-        function closeVideoModal() {
+        function closeVideoModal(clearHash) {
             try {
                 videoPlayer.pause();
                 videoPlayer.currentTime = 0;
@@ -440,6 +464,7 @@ Email: ${emailInput.value}
             videoModal.classList.remove('open');
             videoModal.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
+            if (clearHash !== false) setHashState(null, null);
         }
 
         videoBtns.forEach(btn => {
@@ -448,6 +473,21 @@ Email: ${emailInput.value}
                 const title = btn.getAttribute('data-video-title');
                 openVideoModal(src, title);
             });
+        });
+
+        const initFromHash = () => {
+            if (videoModal.classList.contains('open')) return;
+            const info = parseHash();
+            if (info) openVideoModal(info.v, info.t, false);
+        };
+        setTimeout(initFromHash, 50);
+        window.addEventListener('hashchange', () => {
+            const info = parseHash();
+            if (info) {
+                if (!videoModal.classList.contains('open')) openVideoModal(info.v, info.t, false);
+            } else {
+                if (videoModal.classList.contains('open')) closeVideoModal(false);
+            }
         });
 
         videoCloseBtn.addEventListener('click', closeVideoModal);

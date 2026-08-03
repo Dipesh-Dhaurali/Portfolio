@@ -147,7 +147,28 @@
         const vidBtns = document.querySelectorAll('.btn-project-video');
         const SEEK_STEP = 5;
 
-        function openModal(src, title) {
+        function pBuildHash(src, title) {
+            const params = new URLSearchParams();
+            params.set('v', src);
+            if (title) params.set('t', title);
+            return '#video?' + params.toString();
+        }
+        function pParseHash() {
+            const h = window.location.hash || '';
+            const idx = h.indexOf('?');
+            if (idx === -1 || h.substring(0, idx) !== '#video') return null;
+            const params = new URLSearchParams(h.substring(idx + 1));
+            const v = params.get('v');
+            if (!v) return null;
+            return { v: v, t: params.get('t') || 'Video Demo' };
+        }
+        function pSetHashState(src, title) {
+            try {
+                history.replaceState(null, '', src ? pBuildHash(src, title) : (window.location.pathname + window.location.search));
+            } catch (e) {}
+        }
+
+        function openModal(src, title, updateHash) {
             if (!src) return;
             titleSpan.textContent = title || 'Video Demo';
             const srcEl = player.querySelector('source');
@@ -156,13 +177,14 @@
             modal.classList.add('open');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
+            if (updateHash !== false) pSetHashState(src, title || 'Video Demo');
             setTimeout(() => {
                 player.focus({ preventScroll: true });
                 player.play().catch(() => {});
             }, 150);
         }
 
-        function closeModal() {
+        function closeModal(clearHash) {
             try {
                 player.pause();
                 player.currentTime = 0;
@@ -173,6 +195,7 @@
             modal.classList.remove('open');
             modal.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
+            if (clearHash !== false) pSetHashState(null, null);
         }
 
         vidBtns.forEach(btn => {
@@ -181,6 +204,21 @@
                 const title = btn.getAttribute('data-video-title');
                 openModal(src, title);
             });
+        });
+
+        const pInitFromHash = () => {
+            if (modal.classList.contains('open')) return;
+            const info = pParseHash();
+            if (info) openModal(info.v, info.t, false);
+        };
+        setTimeout(pInitFromHash, 50);
+        window.addEventListener('hashchange', () => {
+            const info = pParseHash();
+            if (info) {
+                if (!modal.classList.contains('open')) openModal(info.v, info.t, false);
+            } else {
+                if (modal.classList.contains('open')) closeModal(false);
+            }
         });
 
         closeBtn.addEventListener('click', closeModal);
