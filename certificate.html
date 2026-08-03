@@ -139,6 +139,7 @@
         }
 
         const RAW_FILES = [
+            'Expirence Letter Developer.pdf',
             'Advance Python Certificate_page-0001.jpg',
             'Django Certificate.jpg',
             'Python Boot Cam Certificate.jpg',
@@ -225,8 +226,14 @@
             const url = BASE + encodeURIComponent(file);
             if (isPDF(file)) {
                 viewer.innerHTML =
-                    '<iframe src="' + url + '" title="' + NAME_MAP[file] + '" type="application/pdf" loading="lazy"></iframe>' +
-                    '<div class="viewer-hint"><i class="bi bi-info-circle"></i> Use the built-in PDF controls above to zoom, search, print, or save.</div>';
+                    '<object data="' + url + '" type="application/pdf" width="100%" height="100%" style="min-height:75vh;display:block;">' +
+                        '<div style="padding:3rem;text-align:center;color:#fff;">' +
+                            '<p style="font-size:1.1rem;margin-bottom:1rem;"><i class="bi bi-filetype-pdf" style="font-size:3rem;color:#ef4444;"></i></p>' +
+                            '<p style="margin-bottom:1rem;">Your browser does not support inline PDF viewing.</p>' +
+                            '<a href="' + url + '" target="_blank" class="btn btn-accent"><i class="bi bi-box-arrow-up-right"></i> Open PDF in New Tab</a>' +
+                        '</div>' +
+                    '</object>' +
+                    '<div class="viewer-hint"><i class="bi bi-info-circle"></i> Use the built-in PDF controls to zoom, search, print, or save. If not visible, click <b>New Tab</b> above.</div>';
             } else {
                 viewer.innerHTML =
                     '<div class="image-frame"><img src="' + url + '" alt="' + NAME_MAP[file] + '" loading="lazy"></div>' +
