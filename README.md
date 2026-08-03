@@ -1,142 +1,48 @@
+# Dipesh Dhaurali — Portfolio
 
+Hello — I'm Dipesh Dhaurali. This site is my personal portfolio built to showcase my web projects, design work, and contact information. It is maintained as a public showcase and hosted live so employers and visitors can view my work online.
 
-# Dipesh Dhaurali — Full Stack Developer Portfolio
+Live site: https://dipeshdhaurali.com.np (hosted on InfinityFree)
 
-Hello — I'm **Dipesh Dhaurali**. This is my personal portfolio website showcasing my journey as a **Full Stack Developer**. I specialize in PHP, Laravel, Python, Django, and modern frontend technologies.
+## About Me
 
-🌐 **Live Site:** [https://dipeshdhaurali.com.np](https://dipeshdhaurali.com.np) *(Hosted on InfinityFree)*
+I build clean, responsive interfaces using HTML, CSS and JavaScript. Some pages include lightweight Python/Flask code for demos or contact handling. This portfolio highlights projects I designed and implemented end-to-end, with screenshots and deployment links when available.
 
----
+## What I did
 
-## 🚀 About Me
+- Designed layout, UX, and responsive CSS for mobile and desktop.
+- Implemented interactive features using `main.js`.
+- Added project pages and an image gallery in the `images/` folder.
+- (Optional) Included a minimal `app.py` backend to demonstrate simple server-side behavior when required.
 
-I am an aspiring **Full Stack Web Developer** with hands-on experience in both backend and frontend development. I build clean, responsive, and user-friendly web applications using modern frameworks and best practices.
+## How to View
 
-### 🧰 Tech Stack
+This repository is intended for viewing only — please visit the live site at https://dipeshdhaurali.com.np to see the polished experience. If you need to preview locally (for development or review), open `index.html` in a browser or serve the folder using a static server:
 
-* **Backend:** PHP (Laravel), Python (Django), RESTful APIs
-* **Frontend:** HTML5, CSS3, JavaScript, Bootstrap
-* **Database:** MySQL, SQLite, PostgreSQL
-* **Tools:** Git, GitHub, Figma, VS Code
-
----
-
-## 💼 Experience & Projects
-
-### 👨‍💻 Professional Experience
-
-* **PHP Developer at IT Care** *(March 2026 - Present)*
-  Junior PHP Developer working with Laravel, MVC architecture, Eloquent ORM, and dynamic web applications.
-
-* **Python/Django Developer** *(1+ Years | Self-Learned / Project-Based)*
-  Built multiple projects including a Job Portal with AI recommendations, TextUtils, and various mini apps. Certified in Python, Django, and Data Science.
-
----
-
-### 🧠 Non-Technical Experience
-
-* Worked as an **Administrative Assistant, Counselor, and Operational Manager** in the consultancy field.
-* Taught **Computer Science, Mathematics, and Programming (Python, C, Java)** as a tuition teacher.
-
----
-
-### 🌟 Featured Projects
-
-* **JobPortal System** — Full-stack Django job portal with AI-based recommendations
-* **Game Portal** — Classic browser games (Snake, Tic-Tac-Toe, Guess the Number)
-* **TextUtils** — Text processing and analysis tool
-* **Calculator App** — Responsive calculator with desktop `.exe` version
-* **Ecommerce Platform** *(In Development)* — Online shopping platform with cart & orders
-
----
-
-## 🎯 Portfolio Features
-
-* Fully responsive (Mobile, Tablet, Desktop)
-* Dark theme with cyan accent
-* Typing animation & smooth scrolling
-* Filterable project gallery with search
-* Contact form with email integration
-* Back-to-top button & loading spinner
-* AOS (Animate On Scroll) effects
-
----
-
-## 👀 How to View
-
-This repository is for **reference only**. For the complete experience:
-
-👉 **[https://dipeshdhaurali.com.np](https://dipeshdhaurali.com.np)**
-
----
-
-### 💻 Run Locally
-
-```bash
-# Using Python
+```powershell
 python -m http.server 8000
-# Open http://localhost:8000
-
-# OR use VS Code Live Server extension
+# then open http://localhost:8000
 ```
 
-⚠️ **Note:** Contact form requires backend/API or FormSubmit token to work locally.
+I prefer people to view the live hosted site rather than cloning the repo; if you need assets or code for collaboration, please contact me first.
 
----
+## Project Structure (for reference)
 
-## 📁 Project Structure
+- `index.html` — landing page
+- `project.html` — project detail page
+- `style.css` — styles
+- `main.js` — front-end scripts
+- `app.py` — optional Flask demo (not required to view the site)
+- `images/` — media assets
 
-```
-portfolio/
-├── index.html
-├── project.html
-├── style.css
-├── main.js
-├── app.py
-├── images/
-│   ├── image.png
-│   ├── 3.jpg
-│   └── [project screenshots]
-└── README.md
-```
+## Hosting
 
----
+This portfolio is deployed on InfinityFree and served from https://dipeshdhaurali.com.np. Hosting on InfinityFree gives me a free static hosting option with quick updates when I push new content.
 
-## 🌍 Hosting
+## Contact
 
-This portfolio is deployed on **InfinityFree** and accessible at:
+If you'd like to get in touch, please use the contact information on the live site footer (email, LinkedIn). If you want to reuse any part of this site or collaborate, message me first so I can share appropriate source files.
 
-👉 [https://dipeshdhaurali.com.np](https://dipeshdhaurali.com.np)
+## License
 
----
-
-## 📬 Contact
-
-Feel free to connect, collaborate, or hire me:
-
-* 📧 Email: [dipesh1dip1@gmail.com](mailto:dipesh1dip1@gmail.com)
-* 💼 LinkedIn: /in/dipesh-dhaurali
-* 💻 GitHub: /Dipesh-Dhaurali
-* 📝 Contact Form: Available on live site
-
-> If you want to reuse or collaborate, please contact me first.
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see [LICENSE](LICENSE).
-
-You may use this as inspiration, but **please give credit**.
-
----
-
-## © 2026 Dipesh Dhaurali
-
-Built with ❤️ using **HTML, CSS, Bootstrap, and JavaScript**
-
----
-
-* 🔥 Make it **ATS/recruiter optimized**
-* 🎨 Add **badges (GitHub stats, tech icons)**
-* 📈 Improve it for **portfolio ranking**
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
